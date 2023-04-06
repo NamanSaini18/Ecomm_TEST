@@ -98,4 +98,22 @@ router.get("/products/new", async(req,res)=>{
  })
 
 
+ router.get('/cart',isLoggedIn,(req,res)=>{
+   res.render("./products/cart")
+ })
+
+
+ router.post('/products/:username',async (req,res)=>{
+   const {username} = req.params;
+   const {productName} = req.body;
+   // console.log(productid);
+   
+   const user = await User.findOne({username: username});
+
+   await user.products.push(productName);
+   await user.save();
+
+   res.redirect('/products')
+ })
+
 module.exports = router;

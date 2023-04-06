@@ -23,9 +23,9 @@ router.get("/register",(req,res)=>{
 
 router.post("/register",async(req,res)=>{
     
-    const {username,password,email} = req.body;
-
-    const user = new User({username,email}) 
+    const {username,password,email,role} = req.body;
+    console.log(role);
+    const user = new User({username,email,role}) 
 
     const newUser = await User.register(user, password);
 
@@ -52,6 +52,7 @@ router.post("/login",passport.authenticate("local",{
 
 
 }), (req,res)=>{
+    
     req.flash("success",`${req.user.username.toUpperCase()}, Your login was successfull`)
     res.redirect("/products");
 })
@@ -69,5 +70,7 @@ router.get('/logout', function(req, res, next) {
       res.redirect('/login');
     });
   });
+
+
 
 module.exports=router;
